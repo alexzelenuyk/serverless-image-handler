@@ -28,7 +28,7 @@ echo "Package the image-handler code"
 echo "------------------------------------------------------------------------------"
 cd image-handler
 npm install 
-npm run build 
+npm run build --unsafe-perm
 cp dist/image-handler.zip ../../deployment/dist/image-handler.zip 
 
 echo "------------------------------------------------------------------------------"
@@ -42,7 +42,7 @@ echo "Package the custom-resource code"
 echo "------------------------------------------------------------------------------"
 cd custom-resource
 npm install 
-npm run build 
+npm run build --unsafe-perm
 cp dist/custom-resource.zip ../../deployment/dist/custom-resource.zip 
 
 echo "------------------------------------------------------------------------------"
