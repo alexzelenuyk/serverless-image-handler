@@ -121,7 +121,15 @@
                             "ErrorCachingMinTTL": 10 
                         } 
                     ], 
-                    "PriceClass": "PriceClass_All"
+                    "PriceClass": "PriceClass_All",
+                    "Aliases": [
+                        "awscdn.zeleniuk.com"
+                    ],
+                    "ViewerCertificate": {
+                        "AcmCertificateArn": "arn:aws:acm:us-east-1:700483457242:certificate/39d56612-55e0-4a74-ad8d-795e44c7ec46",
+                        "MinimumProtocolVersion": "TLSv1.1_2016",
+                        "SslSupportMethod": "sni-only"
+                    }
                 } 
             },
             "Metadata": {
