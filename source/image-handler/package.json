@@ -9,6 +9,7 @@
   "private": true,
   "license": "ISC",
   "dependencies": {
+    "jsonwebtoken": "^8.5.1",
     "mocha": "^6.1.4",
     "sharp": "^0.21.3",
     "sinon": "^7.3.2",

@@ -30,6 +30,16 @@
             "Default" : 1, 
             "Type" : "Number", 
             "AllowedValues" : [ 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653 ] 
+        },
+        "DomainAlias" : { 
+            "Description" : "Alias name", 
+            "Default" : "awscdn.zeleniuk.com", 
+            "Type" : "String"
+        },
+        "CertificateArn" : { 
+            "Description" : "Arn of the certificate of the custom name", 
+            "Default" : "arn:aws:acm:us-east-1:700483457242:certificate/39d56612-55e0-4a74-ad8d-795e44c7ec46", 
+            "Type" : "String"
         } 
     }, 
     "Metadata": { 
@@ -50,7 +60,15 @@
                 { 
                     "Label": { "default": "Event Logging" }, 
                     "Parameters": [ "LogRetentionPeriod" ] 
-                } 
+                }, 
+                { 
+                    "Label": { "default": "awscdn.zeleniuk.com" }, 
+                    "Parameters": [ "DomainAlias" ] 
+                }, 
+                { 
+                    "Label": { "default": "arn:aws:acm:us-east-1:700483457242:certificate/39d56612-55e0-4a74-ad8d-795e44c7ec46" }, 
+                    "Parameters": [ "CertificateArn" ] 
+                }   
             ] 
         } 
     }, 
@@ -94,8 +112,8 @@
                         "TargetOriginId": { "Fn::Sub": "${ImageHandlerApi}" }, 
                         "ForwardedValues": { 
                             "QueryString": false, 
-                            "Headers": [ "Origin" ],
-                            "Cookies": { "Forward": "none" } 
+                            "Headers": [ "Origin", "Authorization" ],
+                            "Cookies": { "Forward": "whitelist", "WhitelistedNames": ["token"] } 
                         }, 
                         "ViewerProtocolPolicy": "https-only" 
                     }, 
@@ -121,7 +139,15 @@
                             "ErrorCachingMinTTL": 10 
                         } 
                     ], 
-                    "PriceClass": "PriceClass_All"
+                    "PriceClass": "PriceClass_All",
+                    "Aliases": [
+                        { "Ref": "DomainAlias" }
+                    ],
+                    "ViewerCertificate": {
+                        "AcmCertificateArn": { "Ref": "CertificateArn" },
+                        "MinimumProtocolVersion": "TLSv1.1_2016",
+                        "SslSupportMethod": "sni-only"
+                    }
                 } 
             },
             "Metadata": {
