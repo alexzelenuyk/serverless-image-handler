@@ -13,9 +13,32 @@
 
 const ImageRequest = require('./image-request.js');
 const ImageHandler = require('./image-handler.js');
+const secret = 'puma';
 
 exports.handler = async (event) => {
     console.log(event);
+    const auth_header = event.headers.Authorization;
+
+    if (!auth_header) {
+        return {
+            "statusCode": 401,
+            "headers" : getResponseHeaders(true),
+            "body": ''
+        };
+    }
+
+    const token = auth_header.split(' ')[1];
+  
+    try {
+        await jwt.verify(token, secret);
+    } catch (e) {
+        return {
+            "statusCode": 403,
+            "headers" : getResponseHeaders(true),
+            "body": ''
+        };        
+    }
+
     const imageRequest = new ImageRequest();
     const imageHandler = new ImageHandler();
     try {
